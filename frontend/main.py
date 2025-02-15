@@ -1,13 +1,30 @@
 import streamlit as st
 
-st.set_page_config(page_title="Bienvenue", page_icon="🏥")
+# Configuration de la page
+st.set_page_config(page_title="Bienvenue", page_icon="🏥", layout="wide")
 
-st.title("🏥 Système de gestion médicale")
-st.subheader("Veuillez choisir votre rôle :")
+# Style CSS pour le fond bleu
+st.markdown(
+    """
+    <style>
+        .stApp {
+            background-color: #0066FF; /* Bleu Doctolib */
+            color: white;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+            font-weight: bold;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-if "role" not in st.session_state:
-    st.session_state.role = None  # Stocke le rôle sélectionné
+# Titre centré
+st.markdown("<h1>🏥 Bienvenue sur Care Pulse</h1>", unsafe_allow_html=True)
 
+<<<<<<< HEAD
 # Styling for big choice buttons
 button_style = """
     display: flex;
@@ -38,3 +55,5 @@ if st.session_state.role == "doctor":
 elif st.session_state.role == "patient":
     st.session_state.role = None  # Reset the role
     st.switch_page("pages/patient")  # Switch to the patient page
+=======
+>>>>>>> refs/remotes/origin/main
