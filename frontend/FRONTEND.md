@@ -121,12 +121,3 @@ Pour toute proposition d’amélioration ou de correction :
 
 Pour plus d’informations sur la mise en place globale, consultez le README principal.
 
----
-
-### Remarques
-
-- **`README.md`** : à placer à la racine du projet.
-- **`backend.md`** : à placer dans le dossier `backend/`.
-- **`frontend.md`** : à placer dans le dossier `frontend/`.
-
-Vous pouvez bien sûr personnaliser les références GitHub, les versions, la licence, etc. selon votre configuration réelle.
