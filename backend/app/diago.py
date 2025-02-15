@@ -28,8 +28,8 @@ def mistral_summup(score, file, language):
     response = client.chat.completions.create(
         model="mistral-nemo-instruct-2407",
         messages = [
-            { "role": "system", "content": "This data is compose of " + prompt },
-            { "role": "user", "content": "give me a sum up of the patient interview according to his response. His calculate emergency score is : " + str(score) + " Be a good assistant, neutral, medical and give me the resume in " + language },
+            { "role": "system", "content": "This data is compose of " + prompt + ". Do not add anything more than there is in this data, use only does data and the score given by the users, be neutral. Give exactly the answers to the question. Structure them a bit."},
+            { "role": "user", "content": "Give me a sum up in " + language + "of the patient interview according to his response. His calculate emergency score is : " + str(score) + " The emergency score is on a scale to 10, tell me if the score is low medium or high."},
         ],
         max_tokens=512,
         temperature=0.3,
