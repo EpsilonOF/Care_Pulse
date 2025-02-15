@@ -150,7 +150,6 @@ def main():
     with tabs[2]:
         # requete request pour avoir les data
         model_outputs = get_diagnostics_from_api()
-        logging.error("okokokokokokok  :", model_outputs)
         st.header("Diagnostics du Modèle")
         # Création d'une liste de patients pour le selectbox
         patient_list = [patient["patient_name"] for patient in model_outputs]
@@ -180,6 +179,7 @@ def main():
                     else:
                         st.write("  Réponse : Non renseigné")
 
+                st.write(f"Compte-rendu : {data['contenu']}")
                 break  # On arrête la boucle une fois le patient trouvé
 
 

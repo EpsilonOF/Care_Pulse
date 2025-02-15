@@ -1,27 +1,90 @@
 {
-    "patient_name": "ok",
+    "patient_name": "pe",
     "patient_gender": 1,
     "responses": {
         "1": [
-            1,
-            null,
-            null,
-            null,
-            "Avez-vous des douleurs thoraciques ?"
+            "1",
+            "1",
+            "5",
+            "Extremely",
+            "\"On a scale of 0 to 10, how much does your shortness of breath or fatigue limit your ability to shower or bathe, with 0 being not at all and 10 being completely unable?\""
         ],
         "2": [
-            2,
-            1,
-            5,
-            "Un peu",
-            "Sur une \u00e9chelle de 1 \u00e0 5, comment \u00e9valueriez-vous votre niveau de douleur ?"
+            "1",
+            "1",
+            "5",
+            "Extremely",
+            "\"I'm sorry, could you please rate how much your shortness of breath or fatigue limits your ability to walk one block on level ground?\""
         ],
         "3": [
-            3,
-            1,
-            5,
-            "Neutre",
-            "\u00c0 quel point \u00eates-vous satisfait de votre traitement actuel ?"
+            "1",
+            "1",
+            "5",
+            "Extremely",
+            "\"I'm sorry, could you please specify how much you are limited by shortness of breath or fatigue when hurrying or jogging?\""
+        ],
+        "4": [
+            "1",
+            "1",
+            "5",
+            "Every morning",
+            "Over the past 2 weeks, how many times have you experienced swelling in your feet, ankles, or legs upon waking up in the morning?"
+        ],
+        "5": [
+            "1",
+            "1",
+            "7",
+            "All of the time",
+            "Over the past two weeks, on average, how many times has fatigue limited your ability to do what you wanted?"
+        ],
+        "6": [
+            "1",
+            "1",
+            "7",
+            "All of the time",
+            "Over the past 2 weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?"
+        ],
+        "7": [
+            "1",
+            "1",
+            "5",
+            "Every morning",
+            "\"Over the past two weeks, on average, how many times have you had to sleep sitting up in a chair or with at least three pillows to prop you up due to shortness of breath?\""
+        ],
+        "8": [
+            "1",
+            "1",
+            "5",
+            "Extremely",
+            "Over the past 2 weeks, how much have your symptoms limited your enjoyment of life?"
+        ],
+        "9": [
+            "1",
+            "1",
+            "5",
+            "Not at all satisfied",
+            "I'm sorry, could you please repeat the question? I didn't quite catch it."
+        ],
+        "10": [
+            "1",
+            "1",
+            "5",
+            "Severely",
+            "\"I see. How do your current symptoms impact your ability to participate in your hobbies and recreational activities?\""
+        ],
+        "11": [
+            "1",
+            "1",
+            "5",
+            "Severely",
+            "How do your symptoms limit your ability to work or do household chores?"
+        ],
+        "12": [
+            "1",
+            "1",
+            "5",
+            "Severely",
+            "\"How do your symptoms limit your ability to visit your family or friends?\""
         ]
     }
 }

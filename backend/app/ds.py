@@ -1,6 +1,7 @@
 from openai import OpenAI
 import json
 from io import StringIO
+import logging
 
 client = OpenAI(
     base_url = "https://api.scaleway.ai/c98de2b2-feb7-4780-a578-4c5276194bf4/v1",

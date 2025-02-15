@@ -49,6 +49,7 @@ def save_responses(file_path, responses):
     with open(file_path, 'w') as file:
         json.dump(responses, file, indent=4)
 
+@st.cache_data
 def fetch_questions():
     try:
         response = requests.get("http://backend:8000/diagnostic")
@@ -63,17 +64,18 @@ def fetch_questions():
         st.write("Réponse brute de l'API:")
         st.write(response.text)  # Affiche la réponse brute pour le débogage
         return []
-    
+
 def chatbot_page():
     st.title("📋 Questionnaire Médical")
     st.caption("Répondez aux questions suivantes pour aider votre médecin à mieux comprendre votre situation.")
 
-    # questions = fetch_questions()
-    questions = [
-    {"id": 1, "text": "Avez-vous des douleurs thoraciques ?", "response_type": "boolean"},
-    {"id": 2, "text": "Sur une échelle de 1 à 5, comment évalueriez-vous votre niveau de douleur ?", "response_type": "scale", "range": {1: "Pas du tout", 2: "Un peu", 3: "Modéré", 4: "Beaucoup", 5: "Énormément"}},
-    {"id": 3, "text": "À quel point êtes-vous satisfait de votre traitement actuel ?", "response_type": "scale", "range": {1: "Pas satisfait", 2: "Peu satisfait", 3: "Neutre", 4: "Satisfait", 5: "Très satisfait"}}
-]
+    questions = fetch_questions()
+   # logging.info(f"Questions récupérées: {questions}")
+#     questions = [
+#     {"id": 1, "text": "Avez-vous des douleurs thoraciques ?", "response_type": "boolean"},
+#     {"id": 2, "text": "Sur une échelle de 1 à 5, comment évalueriez-vous votre niveau de douleur ?", "response_type": "scale", "range": {1: "Pas du tout", 2: "Un peu", 3: "Modéré", 4: "Beaucoup", 5: "Énormément"}},
+#     {"id": 3, "text": "À quel point êtes-vous satisfait de votre traitement actuel ?", "response_type": "scale", "range": {1: "Pas satisfait", 2: "Peu satisfait", 3: "Neutre", 4: "Satisfait", 5: "Très satisfait"}}
+# ]
 
     if "current_question_index" not in st.session_state:
         st.session_state.current_question_index = 0
@@ -100,9 +102,9 @@ def chatbot_page():
         elif current_question["response_type"] == "scale":
             # Affichage de l'échelle avec labels
             range_values = list(current_question["range"].keys())
-            response = st.select_slider("Votre réponse", options=range_values, 
+            response = st.select_slider("Votre réponse", options=range_values,
                                         format_func=lambda x: current_question["range"][x], key=response_key)
-        
+
         if st.button("Continuer"):
             if response is not None:
                 st.session_state.responses.append(response)
@@ -145,7 +147,7 @@ def chatbot_page():
                 data["responses"][key] = ", ".join(
                     [str(item) if item is not None else "-1" for item in value_list]
                 )
-            
+
             logging.info(f"Données envoyées à l'API: {data}")
             url = "http://backend:8000/recup-diagnostic/"
             response_api = requests.post(url, json=data)
@@ -184,10 +186,10 @@ def main():
         post_consultation_page()
     elif st.session_state.page == "chatbot":
         chatbot_page()
-        
+
     # Boutons pour générer et envoyer le PDF
     pdf_content = generate_pdf()
-    
+
     if st.button("Générer et envoyer le PDF", key="generate_pdf", help="Générer un rapport médical en PDF", use_container_width=True):
         send_pdf(pdf_content)
 

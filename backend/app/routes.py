@@ -80,6 +80,7 @@ class DiagnosticResponse(BaseModel):
     patient_name: str
     patient_gender: int
     responses: dict
+    contenu: str
 
 @router.get("/get_diagnostique/", response_model=List[DiagnosticResponse])
 async def get_diagnostics():
@@ -90,13 +91,12 @@ async def get_diagnostics():
     response = []
     for diagnostic in diagnostics:
         responses = {}
+
         for question in diagnostic.questions:
-            print(f"Question: {question}")  # Afficher la question pour le débogage
 
             # Vérifiez si la clé 'range' existe et si elle contient une liste avec au moins un élément
             range_value = question.get('range', [1, 5])
             if not isinstance(range_value, list) or len(range_value) < 1:
-                print(f"Warning: 'range' is missing or invalid in question: {question}")
                 range_value = [1, 5]  # Valeur par défaut
 
             responses[str(question['id'])] = [
@@ -110,7 +110,8 @@ async def get_diagnostics():
         response.append({
             "patient_name": diagnostic.patient.nom,
             "patient_gender": diagnostic.genre,
-            "responses": responses
+            "responses": responses,
+            "contenu": diagnostic.contenu["responses"]
         })
 
     return response
