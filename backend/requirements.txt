@@ -1,3 +1,5 @@
-fastapi==0.78.0
+fastapi==0.115.8
 uvicorn[standard]==0.17.6
-motor==3.0.0
+tortoise-orm
+aerich
+asyncpg  # If using PostgreSQL

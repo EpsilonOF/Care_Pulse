@@ -1,13 +1,28 @@
 from fastapi import APIRouter
-from .database import get_n_records
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import logging as log
+from db_models import *
 
 router = APIRouter()
 
-@router.get("/data")
-async def read_data(n: int = 10):
-    """Lire les n premiers enregistrements de la base de données."""
-    data = await get_n_records(n)
-    return {"data": data}
+
+class PatientCreateRequest(BaseModel):
+    nom: str
+
+@router.post("/create/patient/")
+async def create_patient(patient_request: PatientCreateRequest):
+    patient = await Patient.create(nom=patient_request.nom)
+    return patient.nom
+
+
+@router.post("/create/docteur/")
+async def create_docteur(docteur_request: PatientCreateRequest):
+    docteur = await Docteur.create(nom=docteur_request.nom)
+    return docteur.nom
+
+
+
 
 @router.get("/home")
 async def read_data(n: int = 10):
