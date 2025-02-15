@@ -83,6 +83,7 @@ def chatbot_page():
 
     patient_name = st.text_input("Nom du patient", key="patient_name")
     patient_gender = st.selectbox("Genre du patient", ["","Homme", "Femme", "Autre"], key="patient_gender")
+    patient_gender_id = 1 if patient_gender == "Homme" else 2 if patient_gender == "Femme" else 3 if patient_gender == "Autre" else None
     # Afficher l'historique des réponses
     for i, (question, response) in enumerate(zip(questions, st.session_state.responses)):
         st.write(f"**Question {i+1}**: {question['text']}")
