@@ -91,10 +91,18 @@ async def get_diagnostics():
     for diagnostic in diagnostics:
         responses = {}
         for question in diagnostic.questions:
+            print(f"Question: {question}")  # Afficher la question pour le débogage
+
+            # Vérifiez si la clé 'range' existe et si elle contient une liste avec au moins un élément
+            range_value = question.get('range', [1, 5])
+            if not isinstance(range_value, list) or len(range_value) < 1:
+                print(f"Warning: 'range' is missing or invalid in question: {question}")
+                range_value = [1, 5]  # Valeur par défaut
+
             responses[str(question['id'])] = [
                 1 if question['response_type'] == 'boolean' else 1,  # Assuming 1 for boolean questions
-                None if question['response_type'] == 'boolean' else question.get('range', [1, 5])[0],
-                None if question['response_type'] == 'boolean' else question.get('range', [1, 5])[1],
+                None if question['response_type'] == 'boolean' else range_value[0],
+                None if question['response_type'] == 'boolean' else range_value[1],
                 None,  # Placeholder for the response value
                 question['text']
             ]
@@ -106,8 +114,6 @@ async def get_diagnostics():
         })
 
     return response
-
-
 
 @router.get("/home")
 async def read_data(n: int = 10):

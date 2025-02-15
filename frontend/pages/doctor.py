@@ -1,3 +1,4 @@
+import logging
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -149,35 +150,38 @@ def main():
     with tabs[2]:
         # requete request pour avoir les data
         model_outputs = get_diagnostics_from_api()
+        logging.error("okokokokokokok  :", model_outputs)
         st.header("Diagnostics du Modèle")
-        # Menu déroulant pour sélectionner un patient parmi les outputs du modèle
-        patient_names = [data["patient_name"] for data in model_outputs]
-        selected_patient = st.selectbox("Sélectionnez un patient", patient_names)
+        # Création d'une liste de patients pour le selectbox
+        patient_list = [patient["patient_name"] for patient in model_outputs]
 
-        # Trouver et afficher le diagnostic du patient sélectionné dans un encart formaté
+        # Sélecteur du patient
+        selected_patient = st.selectbox("Choisissez un patient :", patient_list)
+
+        # Recherche du patient sélectionné dans le modèle
         for data in model_outputs:
             if data["patient_name"] == selected_patient:
-                formatted_diagnostic = get_formatted_diagnostic(data)
-                # Encadrer le diagnostic dans une "carte" de style similaire aux priorités
-                st.markdown(
-                    f"""
-                    <div style="
-                        background-color: #0066FF;
-                        color: white;
-                        padding: 10px;
-                        margin: 6px 0;
-                        border-radius: 10px;
-                        text-align: left;
-                        font-size: 15px;
-                    ">
-                        <strong>Nom du patient :</strong> {data["patient_name"]}<br><br>
-                        <strong>Réponses du questionnaire :</strong><br>
-                        <pre style="white-space: pre-wrap; font-size: 14px;">{formatted_diagnostic}</pre>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-                break
+                # Affichage des caractéristiques principales
+                st.subheader(f"Patient : {data['patient_name']}")
+                gender = "Homme" if data["patient_gender"] == 1 else "Femme"
+                st.write(f"Sexe du patient : {gender}")
+
+                # Affichage des réponses
+                st.write("### Réponses au questionnaire :")
+                for question_id, response_info in data["responses"].items():
+                    # response_info est de la forme [?, ?, ?, ?, question_text]
+                    question_text = response_info[4]
+                    # Par hypothèse, la valeur d'intérêt (note/réponse) est dans response_info[2]
+                    note = response_info[2]
+
+                    st.write(f"- **Question {question_id}** : {question_text}")
+                    if note is not None:
+                        st.write(f"  Réponse : {note}")
+                    else:
+                        st.write("  Réponse : Non renseigné")
+
+                break  # On arrête la boucle une fois le patient trouvé
+
 
 if __name__ == "__main__":
     main()
