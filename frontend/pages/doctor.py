@@ -3,6 +3,19 @@ import pandas as pd
 import numpy as np
 from fpdf import FPDF
 
+
+# Style CSS pour le fond bleu
+st.markdown(
+    """
+    <style>
+        .stApp {
+            background: linear-gradient(to bottom, rgb(37, 150, 190), #0066FF); /* Gradient entre les deux couleurs */
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 def generate_priority_list():
     """Génération de données fictives pour les scores des patients."""
     np.random.seed(42)

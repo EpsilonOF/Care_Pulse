@@ -7,6 +7,18 @@ import json
 username = "felou"
 # password = st.secrets["password"]
 
+# Adding custom CSS directly to the page for text color adjustments
+st.markdown(
+    """
+    <style>
+        /* General styling for the app */
+        .stApp {
+            background: linear-gradient(to bottom, rgb(37, 150, 190), #0066FF); /* Gradient background */
+        }
+    </style>
+    """, unsafe_allow_html=True
+)
+
 def home_page():
     st.title("Bienvenue sur notre plateforme médicale")
     st.header("Votre historique médical")
@@ -20,7 +32,6 @@ def home_page():
     for entry in historique:
         st.write(f"**{entry['date']}**: {entry['description']}")
 
-
 def post_consultation_page():
     st.write("Bienvenue sur votre espace personnel. Ici, vous pouvez consulter vos rapports médicaux.")
 
@@ -29,7 +40,7 @@ def post_consultation_page():
 
     for report in sample_reports:
         with open(report, "rb") as file:
-            st.download_button(label=f"📥 Télécharger {report}", data=file, file_name=report, mime="application/pdf")
+            st.download_button(label=f"📥 Télécharger {report}", data=file, file_name=report, mime="application/pdf", key="download_btn", use_container_width=True)
 
     st.title("Post-consultation")
 
@@ -40,8 +51,6 @@ def post_consultation_page():
 
     st.header("Explications de prise de traitement")
     st.write("Prenez le médicament avec un verre d'eau.")
-
-
 
 def load_questions(file_path):
     with open(file_path, 'r') as file:
@@ -69,6 +78,7 @@ def chatbot_page():
 
     patient_name = st.text_input("Nom du patient", key="patient_name")
     patient_gender = st.selectbox("Genre du patient", ["","Homme", "Femme", "Autre"], key="patient_gender")
+
     # Afficher l'historique des réponses
     for i, (question, response) in enumerate(zip(questions, st.session_state.responses)):
         st.write(f"**Question {i+1}**: {question['text']}")
@@ -103,9 +113,16 @@ def chatbot_page():
         }
         save_responses('responses.json', structured_responses)
 
+def generate_pdf():
+    # Fonction pour générer un PDF (exemple basique)
+    pdf_content = "Voici votre rapport médical"
+    return pdf_content
+
+def send_pdf(pdf_content):
+    # Fonction pour envoyer le PDF (ici simulée)
+    st.write("PDF généré et envoyé avec succès.")
 
 def main():
-    
     # Sidebar pour la navigation
     st.sidebar.title("Navigation")
     if st.sidebar.button("Accueil"):
@@ -124,6 +141,12 @@ def main():
         post_consultation_page()
     elif st.session_state.page == "chatbot":
         chatbot_page()
+        
+    # Boutons pour générer et envoyer le PDF
+    pdf_content = generate_pdf()
+    
+    if st.button("Générer et envoyer le PDF", key="generate_pdf", help="Générer un rapport médical en PDF", use_container_width=True):
+        send_pdf(pdf_content)
 
 if __name__ == "__main__":
     main()
