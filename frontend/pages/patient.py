@@ -131,7 +131,8 @@ def chatbot_page():
                         response,
                         min(question["range"].keys()) if "range" in question else None,
                         max(question["range"].keys()) if "range" in question else None,
-                        question["range"].get(response) if "range" in question else None
+                        question["range"].get(response) if "range" in question else None,
+                        question["text"]
                     ]
                     for question, response in zip(questions, st.session_state.responses)
                 }
@@ -142,22 +143,21 @@ def chatbot_page():
             # Envoi des données vers le backend
             with open('responses.json', 'r') as file:
                 data = json.load(file)
-                url = "http://backend:8000/recup-diagnostic/"
-                response_api = requests.post(url, json=data)
-
+            for key, value_list in data["responses"].items():
+                # On remplace None par "-1" si besoin, puis on jointe les éléments avec une virgule
+                data["responses"][key] = ", ".join(
+                    [str(item) if item is not None else "-1" for item in value_list]
+                )
+            
+            logging.info(f"Données envoyées à l'API: {data}")
+            url = "http://backend:8000/recup-diagnostic/"
+            response_api = requests.post(url, json=data)
             # Vérifier la réponse de l'API
             if response_api.status_code == 200:
                 logging.info("Diagnostic enregistré avec succès.")
             else:
                 logging.error(f"Erreur lors de l'enregistrement du diagnostic: {response_api.status_code}")
                 logging.error(f"Réponse de l'API: {response_api.text}")
-            expected_keys = {"patient_name", "patient_gender", "responses"}
-            if not expected_keys.issubset(data.keys()):
-                logging.error(f"Clés manquantes dans les données: {expected_keys - data.keys()}")
-
-            # Vérifiez que patient_gender est une chaîne de caractères
-            if "patient_gender" in data and not isinstance(data["patient_gender"], str):
-                logging.error(f"patient_gender doit être une chaîne de caractères, mais c'est un {type(data['patient_gender'])}")
 
 
 def main():
