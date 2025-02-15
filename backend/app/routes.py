@@ -1,21 +1,14 @@
-from fastapi import APIRouter
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, status, HTTPException
 from pydantic import BaseModel
 import logging as log
 from typing import List, Literal, Optional
 from db_models import *
+from enter_model import *
+from tortoise.query_utils import Prefetch
+from tortoise.exceptions import DoesNotExist
+from ds import take_question
 
 router = APIRouter()
-
-# Modèle Pydantic pour une question
-class Question(BaseModel):
-    id: int
-    text: str
-    response_type: Literal["boolean", "scale"]  # Type de réponse attendu
-    range: Optional[List[int]] = None  # Intervalle pour les réponses de type "scale"
-
-class PatientCreateRequest(BaseModel):
-    nom: str
 
 @router.post("/create/patient/")
 async def create_patient(patient_request: PatientCreateRequest):
@@ -29,25 +22,55 @@ async def create_docteur(docteur_request: PatientCreateRequest):
     return docteur.nom
 
 
-# Liste de questions (simulée)
-questions = [
-    {"id": 1, "text": "Avez-vous des antécédents médicaux ?", "response_type": "boolean"},
-    {"id": 2, "text": "Sur une échelle de 1 à 10, à quel point votre douleur est-elle intense ?", "response_type": "scale", "range": [1, 10]},
-    {"id": 3, "text": "Avez-vous des allergies connues ?", "response_type": "boolean"},
-    {"id": 4, "text": "Sur une échelle de 0 à 5, à quel point vous sentez-vous fatigué ?", "response_type": "scale", "range": [0, 5]},
-    {"id": 5, "text": "Prenez-vous des médicaments actuellement ?", "response_type": "boolean"},
-]
 
 # Route GET /diagnostic
-@router.get("/diagnostic", response_model=List[Question])
+@router.get("/diagnostic", response_model=List[Question]) # envoyer les question au frontend
 async def get_diagnostic_questions():
     """
     Renvoie une liste de questions pour le diagnostic.
     Chaque question inclut le type de réponse attendu (boolean ou scale).
     Pour les questions de type "scale", un intervalle (range) est également fourni.
     """
-    question = questions
+    question = take_question(questions)
     return question
+
+
+
+@router.post("/recup-diagnostic/", status_code=status.HTTP_200_OK) # le frontend me renvoie les reponse et on les store
+async def create_diagnostic(data: DiagnosticData):
+    try:
+        patient = await Patient.get(nom=data.patient_name)
+    except DoesNotExist:
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+
+    diagnostic = await Diagnostic.create(
+        contenu={"responses": data.responses},
+        questions=questions,
+        patient=patient,
+        genre=data.patient_gender
+    )
+
+    return {"message": "Diagnostic recorded successfully"}
+
+
+@router.get("/get_diagnostique/", response_model=List[DiagnosticResponse]) # le frontend docteur me demande le resultat du diagnostic
+async def get_diagnostics():
+    # Using Prefetch to optimize the database access and get the related patient name
+    diagnostics = await Diagnostic.all().prefetch_related(Prefetch("patient", queryset=Patient.all().only("nom")))
+
+    response = []
+    for diagnostic in diagnostics:
+        # Building the response ensuring to include only the patient's name
+        response.append({
+            "id": diagnostic.id,
+            "genre": diagnostic.genre,
+            "contenu": diagnostic.contenu,
+            "questions": diagnostic.questions,
+            "patient_name": diagnostic.patient.nom
+        })
+
+    return response
 
 
 
