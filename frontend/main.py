@@ -33,8 +33,8 @@ if st.button("👤 Patient", key="patient_btn", help="Accéder à l'interface pa
 # Redirection automatique
 if st.session_state.role == "doctor":
     st.session_state.role = None  # Reset the role to avoid multiple redirections
-    st.switch_page("doctor")  # Switch to the doctor page
+    st.switch_page("pages/doctor")  # Switch to the doctor page
 
 elif st.session_state.role == "patient":
     st.session_state.role = None  # Reset the role
-    st.switch_page("patient")  # Switch to the patient page
+    st.switch_page("pages/patient")  # Switch to the patient page
