@@ -46,12 +46,12 @@ decapix-doctogreed-hackathon/
 │       ├── main.py  
 │       └── routes.py  
 └── frontend/  
-├── frontend.md          <-- Documentation spécifique au frontend  
-├── Dockerfile           <-- Dockerfile du frontend  
-├── requirements.txt     <-- Dépendances Python du frontend  
-└── pages/  
-├── doctor.py  
-└── patient.py  
+    ├── frontend.md          <-- Documentation spécifique au frontend  
+    ├── Dockerfile           <-- Dockerfile du frontend  
+    ├── requirements.txt     <-- Dépendances Python du frontend  
+    └── pages/  
+    ├── doctor.py  
+    └── patient.py  
 ```  
   
 ---  
