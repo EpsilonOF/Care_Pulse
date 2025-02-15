@@ -7,20 +7,11 @@ client = OpenAI(
     api_key = "a1a533f0-283e-4977-b763-2759d25e1f7f"
 )
 
-def str_associated_to_key(key):
-    if (key == 1):
-        return ("any backpain ?")
-    if (key == 2):
-        return ("des antecedents medicaux ?")
-    if (key == 3):
-        return ("des problemes reinaux ?")
-
 def dictDataExtract(file):
     result = "Patient name: " + file['patient_name'] + ", gender: " + file['patient_gender'] + "\n"
-    for key in file:
-        if (isinstance(key, int)):
-            result += "Question: " + str_associated_to_key(key) + " "
-            result += " Patient answer: " + str(file[key]) + "\n"
+    key = 2
+    for key, value in file["responses"].items():
+        result += "Questions: " + value[4] + " answer: " + value[3] + "\n"
     return result
 
 def mistral_summup(score, file, language):
@@ -28,7 +19,7 @@ def mistral_summup(score, file, language):
     response = client.chat.completions.create(
         model="mistral-nemo-instruct-2407",
         messages = [
-            { "role": "system", "content": "This data is compose of " + prompt + ". Do not add anything more than there is in this data, use only does data and the score given by the users, be neutral. Give exactly the answers to the question. Structure them a bit."},
+            { "role": "system", "content": "This data is compose of " + prompt + ". Use only does data and the score given by the users, be neutral. Give exactly the answers to the question but in " + language + ". Try to structure correctly the answer."},
             { "role": "user", "content": "Give me a sum up in " + language + "of the patient interview according to his response. His calculate emergency score is : " + str(score) + " The emergency score is on a scale to 10, tell me if the score is low medium or high."},
         ],
         max_tokens=512,
@@ -48,17 +39,17 @@ def interview_summup(score, file):
             result.write(chunk.choices[-1].delta.content)
     return result.getvalue()
 
-test = {
+"""test = {
     "patient_name": "Louis Martin",
     "patient_gender": "male",
     "responses": {
-        1: [1, 1, 5, "pas beaucoup"],
-        2: [0, 1, 1, "non"],
-        3: [4, 1, 5, "tres regulierement"],
+        1: [1, 1, 5, "pas beaucoup", "des problemes cardiaques ?"],
+        2: [0, 1, 1, "non", "des traitements reguliers ?"],
+        3: [4, 1, 5, "tres regulierement", "des difficultes respiratoires ?"],
     },
 }
 
 score = 3.4
 sum_up = interview_summup(score, test)
-print(sum_up)
+print(sum_up)"""
 
