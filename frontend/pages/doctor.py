@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from fpdf import FPDF
 
+
 def generate_priority_list():
     """Génération de données fictives pour les scores des patients."""
     np.random.seed(42)
@@ -71,11 +72,11 @@ def main():
                 <div style="
                     background-color: {color}; 
                     color: white; 
-                    padding: 8px; 
-                    margin: 8px 0; 
+                    padding: 6px; 
+                    margin: 6px 0; 
                     border-radius: 10px; 
                     text-align: center; 
-                    font-size: 16px; 
+                    font-size: 15px; 
                     font-weight: bold;
                 ">
                     {name} : Score = {score:.2f}
