@@ -1,0 +1,24 @@
+{
+    "patient_name": "qsdqsd",
+    "patient_gender": 1,
+    "responses": {
+        "1": [
+            1,
+            null,
+            null,
+            null
+        ],
+        "2": [
+            2,
+            1,
+            5,
+            "Un peu"
+        ],
+        "3": [
+            4,
+            1,
+            5,
+            "Satisfait"
+        ]
+    }
+}

@@ -2,22 +2,11 @@ import streamlit as st
 import pandas as pd
 import requests
 import json
+import logging
 
 # username = st.secrets["username"]
 username = "felou"
 # password = st.secrets["password"]
-
-# Adding custom CSS directly to the page for text color adjustments
-st.markdown(
-    """
-    <style>
-        /* General styling for the app */
-        .stApp {
-            background: linear-gradient(to bottom, rgb(37, 150, 190), #0066FF); /* Gradient background */
-        }
-    </style>
-    """, unsafe_allow_html=True
-)
 
 def home_page():
     st.title("Bienvenue sur notre plateforme médicale")
@@ -60,15 +49,31 @@ def save_responses(file_path, responses):
     with open(file_path, 'w') as file:
         json.dump(responses, file, indent=4)
 
-questions = [
-    {"id":1,"text": "Avez-vous des douleurs thoraciques ?", "type": "boolean"},
-    {"id":2,"text": "Sur une échelle de 1 à 5, comment évalueriez-vous votre niveau de douleur ?", "type": "scale", "range": 5},
-    {"id":3,"text": "À quel point êtes-vous satisfait de votre traitement actuel ?", "type": "scale", "range": 10}
-]
-
+def fetch_questions():
+    try:
+        response = requests.get("http://backend:8000/diagnostic")
+        response.raise_for_status()  # Vérifie les erreurs HTTP
+        questions = response.json()
+        return questions
+    except requests.exceptions.RequestException as e:
+        st.error(f"Erreur lors de la récupération des questions: {e}")
+        return []
+    except ValueError as e:
+        st.error(f"Erreur de décodage JSON: {e}")
+        st.write("Réponse brute de l'API:")
+        st.write(response.text)  # Affiche la réponse brute pour le débogage
+        return []
+    
 def chatbot_page():
     st.title("📋 Questionnaire Médical")
     st.caption("Répondez aux questions suivantes pour aider votre médecin à mieux comprendre votre situation.")
+
+    # questions = fetch_questions()
+    questions = [
+    {"id": 1, "text": "Avez-vous des douleurs thoraciques ?", "response_type": "boolean"},
+    {"id": 2, "text": "Sur une échelle de 1 à 5, comment évalueriez-vous votre niveau de douleur ?", "response_type": "scale", "range": {1: "Pas du tout", 2: "Un peu", 3: "Modéré", 4: "Beaucoup", 5: "Énormément"}},
+    {"id": 3, "text": "À quel point êtes-vous satisfait de votre traitement actuel ?", "response_type": "scale", "range": {1: "Pas satisfait", 2: "Peu satisfait", 3: "Neutre", 4: "Satisfait", 5: "Très satisfait"}}
+]
 
     if "current_question_index" not in st.session_state:
         st.session_state.current_question_index = 0
@@ -78,7 +83,6 @@ def chatbot_page():
 
     patient_name = st.text_input("Nom du patient", key="patient_name")
     patient_gender = st.selectbox("Genre du patient", ["","Homme", "Femme", "Autre"], key="patient_gender")
-
     # Afficher l'historique des réponses
     for i, (question, response) in enumerate(zip(questions, st.session_state.responses)):
         st.write(f"**Question {i+1}**: {question['text']}")
@@ -88,30 +92,68 @@ def chatbot_page():
     if st.session_state.current_question_index < len(questions):
         current_question = questions[st.session_state.current_question_index]
         st.write(f"**Question {st.session_state.current_question_index + 1}**: {current_question['text']}")
-
-        if current_question["type"] == "boolean":
-            response = st.radio("Votre réponse", ["Vrai", "Faux"], key=f"question_{st.session_state.current_question_index}")
-        elif current_question["type"] == "scale":
-            response = st.slider("Votre réponse", 1, current_question["range"], key=f"question_{st.session_state.current_question_index}")
-
+        response_key = f"question_{st.session_state.current_question_index}"
+        if current_question["response_type"] == "boolean":
+            user_response = st.radio("Votre réponse", ["Oui", "Non"], key=response_key)
+            response = 0 if user_response == "Non" else 1
+        elif current_question["response_type"] == "scale":
+            # Affichage de l'échelle avec labels
+            range_values = list(current_question["range"].keys())
+            response = st.select_slider("Votre réponse", options=range_values, 
+                                        format_func=lambda x: current_question["range"][x], key=response_key)
+        
         if st.button("Continuer"):
-            if response:
+            if response is not None:
                 st.session_state.responses.append(response)
                 st.session_state.current_question_index += 1
                 st.query_params = {"page": "questionnaire", "index": st.session_state.current_question_index}
                 st.rerun()
-    elif patient_name == "":
-        st.warning("Veuillez entrer un nom pour continuer.")
-    elif patient_gender == "":
-        st.warning("Veuillez sélectionner un genre pour continuer.")
+
+    # Cas 2 : Toutes les questions ont été répondues
     else:
-        st.write("Merci d'avoir répondu à toutes les questions. Vos réponses ont été transférées à un médecin.")
-        structured_responses = {
-            "patient_name": patient_name,
-            "patient_gender": patient_gender,
-            "responses": {question["id"]: response for question, response in zip(questions, st.session_state.responses)}
-        }
-        save_responses('responses.json', structured_responses)
+        # Vérifier que les informations patient sont bien renseignées
+        if patient_name == "":
+            st.warning("Veuillez entrer un nom pour continuer.")
+        elif patient_gender == "":
+            st.warning("Veuillez sélectionner un genre pour continuer.")
+        else:
+            # Construction de la structure des réponses
+            # Ici, pour chaque question, si elle possède un "range", on récupère les valeurs min, max et le label associé
+            structured_responses = {
+                "patient_name": patient_name,
+                "patient_gender": patient_gender_id,
+                "responses": {
+                    question["id"]: [
+                        response,
+                        min(question["range"].keys()) if "range" in question else None,
+                        max(question["range"].keys()) if "range" in question else None,
+                        question["range"].get(response) if "range" in question else None
+                    ]
+                    for question, response in zip(questions, st.session_state.responses)
+                }
+            }
+            save_responses('responses.json', structured_responses)
+            st.write("Merci d'avoir répondu à toutes les questions. Vos réponses ont été transférées à un médecin.")
+
+            # Envoi des données vers le backend
+            with open('responses.json', 'r') as file:
+                data = json.load(file)
+                url = "http://backend:8000/recup-diagnostic/"
+                response_api = requests.post(url, json=data)
+
+            # Vérifier la réponse de l'API
+            if response_api.status_code == 200:
+                logging.info("Diagnostic enregistré avec succès.")
+            else:
+                logging.error(f"Erreur lors de l'enregistrement du diagnostic: {response_api.status_code}")
+                logging.error(f"Réponse de l'API: {response_api.text}")
+            expected_keys = {"patient_name", "patient_gender", "responses"}
+            if not expected_keys.issubset(data.keys()):
+                logging.error(f"Clés manquantes dans les données: {expected_keys - data.keys()}")
+
+            # Vérifiez que patient_gender est une chaîne de caractères
+            if "patient_gender" in data and not isinstance(data["patient_gender"], str):
+                logging.error(f"patient_gender doit être une chaîne de caractères, mais c'est un {type(data['patient_gender'])}")
 
 def generate_pdf():
     # Fonction pour générer un PDF (exemple basique)
