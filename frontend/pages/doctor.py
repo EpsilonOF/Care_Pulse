@@ -43,24 +43,8 @@ def calculate_health_score(response_list, scores_to_coefs):
     sum_responses = [sum(response_list[i:i+5]) for i in range(0, 25, 5)]
     return max(0, min(10, 10 * (1 - sum([scores_to_coefs[score-1][i] for i, score in enumerate(sum_responses)]))))
 
-# ===============================
-# Coefficients pour le calcul des scores
-# ===============================
-score_to_coefs_MO = [0, 0.03759, 0.04774, 0.17949, 0.32509]
-score_to_coefs_SC = [0, 0.03656, 0.050781, 0.172251, 0.258331]
-score_to_coefs_UA = [0, 0.03313, 0.03979, 0.15689, 0.24005]
-score_to_coefs_PD = [0, 0.02198, 0.04704, 0.26374, 0.44399]
-score_to_coefs_AD = [0, 0.02046, 0.04683, 0.20005, 0.25803]
 
-scores_to_coefs = np.array(list(zip(score_to_coefs_MO, score_to_coefs_SC, score_to_coefs_UA, score_to_coefs_PD, score_to_coefs_AD)))
 
-# ===============================
-# Simulation des données pour les autres onglets
-# ===============================
-patients_list = ["Alice", "Bob", "Charlie", "Diana", "Ethan"]
-patient_responses = {name: np.random.randint(0, 2, 25).tolist() for name in patients_list}
-patient_scores = {name: calculate_health_score(responses, scores_to_coefs) for name, responses in patient_responses.items()}
-sorted_patients = sorted(patient_scores.items(), key=lambda x: x[1], reverse=True)
 
 # ===============================
 # Simulation des outputs JSON du modèle
@@ -105,49 +89,9 @@ def main():
 
     tabs = st.tabs(["📋 Priorité des Patients", "📝 Diagnostic & PDF", "📄 Diagnostics du Modèle"])
 
-    # Onglet 1 : Priorité des Patients
-    with tabs[0]:
-        st.header("Liste des patients classés par priorité")
-        for name, score in sorted_patients:
-            diagnosis = f"Compte-rendu médical de {name}.\nÉtat du patient analysé avec un score de {score:.2f}/10."
-            color = color_code(score)
-            st.markdown(
-                f"""
-                <div style="
-                    background-color: {color};
-                    color: white;
-                    padding: 6px;
-                    margin: 6px 0;
-                    border-radius: 10px;
-                    text-align: center;
-                    font-size: 15px;
-                    font-weight: bold;
-                ">
-                    {name} : Score = {score:.2f}
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-            with st.expander(f"📋 Voir le compte-rendu de {name}"):
-                st.write(diagnosis)
-                pdf_file = generate_pdf(name, diagnosis)
-                with open(pdf_file, "rb") as file:
-                    st.download_button(label="📥 Télécharger le PDF", data=file, file_name=pdf_file, mime="application/pdf")
-
-    # Onglet 2 : Rédiger un diagnostic
-    with tabs[1]:
-        st.header("📝 Rédiger un diagnostic")
-        patient_name = st.selectbox("Sélectionnez un patient", patients_list)
-        diagnosis_text = st.text_area("Écrivez le diagnostic ici")
-
-        if st.button("📄 Générer et Envoyer PDF"):
-            pdf_file = generate_pdf(patient_name, diagnosis_text)
-            with open(pdf_file, "rb") as file:
-                st.download_button(label="📥 Télécharger le PDF", data=file, file_name=pdf_file, mime="application/pdf")
-            st.success(f"📄 PDF généré et envoyé pour {patient_name} !")
 
     # Onglet 3 : Diagnostics du Modèle
-    with tabs[2]:
+    with tabs[0]:
         # requete request pour avoir les data
         model_outputs = get_diagnostics_from_api()
         st.header("Diagnostics du Modèle")
