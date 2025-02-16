@@ -8,6 +8,7 @@ from tortoise.query_utils import Prefetch
 from tortoise.exceptions import DoesNotExist
 from ds import take_question
 from diago import interview_summup
+from score import *
 
 router = APIRouter()
 
@@ -36,7 +37,9 @@ async def get_diagnostic_questions():
     return question
 
 def get_score(file):
-    return 3.4
+    log.info(f"Received diagnostic data: {file}")
+    print(f"Received diagnostic data: {file}")
+    return calculate_total_score(file)
 
 @router.post("/recup-diagnostic/", status_code=status.HTTP_200_OK)
 async def create_diagnostic(data: DiagnosticData):

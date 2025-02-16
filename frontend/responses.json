@@ -1,34 +1,34 @@
 {
-    "patient_name": "mw",
-    "patient_gender": 2,
+    "patient_name": "vx",
+    "patient_gender": 1,
     "responses": {
         "1": [
             "2",
             "1",
             "5",
             "Quite a bit",
-            "\"Could you please rate the extent to which shortness of breath or fatigue limits your ability to shower or bathe?\""
+            "\"On a scale of 0 to 10, how much does shortness of breath or fatigue limit your ability to shower or bathe?\""
         ],
         "2": [
             "3",
             "1",
             "5",
             "Moderately",
-            "How much are you limited by shortness of breath or fatigue in your ability to walk 1 block on level ground?"
+            "\"On a scale of 0 to 10, how much does shortness of breath or fatigue limit your ability to walk 1 block on level ground?\""
         ],
         "3": [
-            "3",
+            "1",
             "1",
             "5",
-            "Moderately",
-            "\"Could you please rate the extent to which shortness of breath or fatigue limits you during hurried activities or jogging, on a scale of 1-10, with 1 being not limited at all and 10 being completely limited?\""
+            "Extremely",
+            "\"On a scale of 0-10, how limited are you by shortness of breath or fatigue when hurrying or jogging, with 0 being not limited at all and 10 being completely unable to do so?\""
         ],
         "4": [
             "1",
             "1",
             "5",
             "Every morning",
-            "Over the past 2 weeks, how many times did you experience swelling in your feet, ankles, or legs upon waking up in the morning?"
+            "Over the past 2 weeks, how many times have you experienced swelling in your feet, ankles, or legs upon waking up in the morning?"
         ],
         "5": [
             "1",
@@ -42,7 +42,7 @@
             "1",
             "7",
             "All of the time",
-            "Over the past 2 weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?"
+            "\"Over the past two weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?\""
         ],
         "7": [
             "1",
@@ -56,21 +56,21 @@
             "1",
             "5",
             "Extremely",
-            "Over the past 2 weeks, how much have your symptoms limited your enjoyment of life?"
+            "\"Over the past two weeks, to what extent have your symptoms interfered with your enjoyment of life?\""
         ],
         "9": [
             "1",
             "1",
             "5",
             "Not at all satisfied",
-            "I'm sorry to hear that you're experiencing symptoms that are causing you distress. To better understand your situation, could you please tell me how you would feel about continuing to live with your current symptoms for the rest of your life?"
+            "I'm here to listen. How would you feel about living with your current symptoms for the rest of your life?"
         ],
         "10": [
             "1",
             "1",
             "5",
             "Severely",
-            "\"And how do your symptoms currently limit your hobbies and recreational activities?\""
+            "\"And how do your symptoms limit your hobbies and recreational activities?\""
         ],
         "11": [
             "1",
