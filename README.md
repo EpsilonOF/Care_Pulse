@@ -16,16 +16,24 @@ Bienvenue dans ce projet de chatbot IA dédié à la cardiologie, conçu pour ai
 
 ## Contexte : use case IA en cardiologie
 Ce projet répond à un besoin concret dans le domaine médical :
-- **Pénurie de cardiologues** et répartition inégale de l’expertise.- **Triage non optimisé** des patients, sans évaluation médicale préalable.- **Perte de temps** en consultation (questions de base).- **Manque de suivi structuré** post-consultation.  
-  **Objectif** : Un assistant IA qui prépare et optimise les consultations :- Pré-évalue le patient avant la prise de rendez-vous.
-- Génère un rapport structuré des symptômes / historique médical.
-- Aide le cardiologue à prioriser les cas les plus urgents.
-- Assure un suivi post-consultation intelligent (rappels, alertes, etc.).
+- **Pénurie de cardiologues** et répartition inégale de l’expertise.
+- **Triage non optimisé** des patients, sans évaluation médicale préalable.
+- **Perte de temps** en consultation (questions de base).
+- **Manque de suivi structuré** post-consultation.
+
+  **Objectif** : Un assistant IA qui prépare et optimise les consultations :
+  - Pré-évalue le patient avant la prise de rendez-vous.
+  - Génère un rapport structuré des symptômes / historique médical.
+  - Aide le cardiologue à prioriser les cas les plus urgents.
+  - Assure un suivi post-consultation intelligent (rappels, alertes, etc.).
 
 ---  
 
 ## Fonctionnalités principales
-1. **Triage des patients** : Analyse des réponses et priorisation des cas urgents.2. **Consultation préliminaire** : Rassemble les informations importantes (symptômes, historique, traitements en cours).3. **Suivi post-consultation** : Rappels de prise de médicament, vérification de l’évolution, alertes si aggravation.4. **Génération de rapports** : Export PDF, affichage côté médecin, éventuellement notifications pour le patient.
+1. **Triage des patients** : Analyse des réponses et priorisation des cas urgents.
+2. **Consultation préliminaire** : Rassemble les informations importantes (symptômes, historique, traitements en cours).
+3. **Suivi post-consultation** : Rappels de prise de médicament, vérification de l’évolution, alertes si aggravation.
+4. **Génération de rapports** : Export PDF, affichage côté médecin, éventuellement notifications pour le patient.
 ---  
 
 ## Structure du projet
@@ -70,19 +78,18 @@ decapix-doctogreed-hackathon/
    ```bash git clone https://github.com/votre-compte/doctogreed-hackathon.git cd doctogreed-hackathon ```
 2. **(Facultatif) Mettre à jour les variables d’environnement** dans `docker-compose.yaml` si nécessaire (ex. `DATABASE_URL`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, etc.).
 
-3. Créer un fichier .env et mettre la bonne clé API ainsi que la bonne URL. Exemple : `https://api.scaleway.ai/c98de2b2-feb7-4780-a578-4c5276194bf4/v1` .
+3. **Créer un fichier .env** et mettre la bonne clé API ainsi que la bonne URL. Exemple : `https://api.scaleway.ai/c98de2b2-feb7-4780-a578-4c5276194bf4/v1` .
  
-5. **Lancer Docker Compose** :  
+4. **Lancer Docker Compose** :  
    ``docker-compose up --build``
 ## Pour utiliser notre logique :
 
-1. creer un utilisateur :
-``curl -X POST http://51.15.224.201:8000/create/patient/ \                                                                                                                                                                                                             
--H "Content-Type: application/json" \
--d '{"nom": "felix"}'``
+1. Créer un utilisateur :
 
-2. simuler sa prise de rendez vous dans la partie `chatbot patient`
-3. se mettre a la place du docteur pour comparer les patient `docteur`
+``curl -X POST http://127.0.0.1:8000/create/patient/ -H "Content-Type:application/json" -d '{"nom":"votre_nom"}'``
+
+2. Simuler sa prise de rendez vous dans la partie `chatbot patient`
+3. Se mettre à la place du docteur pour comparer les patients `docteur`
 
 
 Cela va lancer :
