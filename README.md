@@ -77,7 +77,7 @@ decapix-doctogreed-hackathon/
 ## Pour utiliser notre logique :
 
 1. creer un utilisateur :
-``curl -X POST http://51.15.224.201:8000/create/patient/ \                                                                                                                                                                                                             solenopsis@gallica
+``curl -X POST http://51.15.224.201:8000/create/patient/ \                                                                                                                                                                                                             
 -H "Content-Type: application/json" \
 -d '{"nom": "felix"}'``
 
