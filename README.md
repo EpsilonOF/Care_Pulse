@@ -71,9 +71,19 @@ decapix-doctogreed-hackathon/
 2. **(Facultatif) Mettre à jour les variables d’environnement** dans `docker-compose.yaml` si nécessaire (ex. `DATABASE_URL`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, etc.).
 
 3. Créer un fichier .env et mettre la bonne clé API ainsi que la bonne URL. Exemple : `https://api.scaleway.ai/c98de2b2-feb7-4780-a578-4c5276194bf4/v1` .
-4. 
+ 
 5. **Lancer Docker Compose** :  
    ``docker-compose up --build``
+## Pour utiliser notre logique :
+
+1. creer un utilisateur :
+``curl -X POST http://51.15.224.201:8000/create/patient/ \                                                                                                                                                                                                             solenopsis@gallica
+-H "Content-Type: application/json" \
+-d '{"nom": "felix"}'``
+
+2. simuler sa prise de rendez vous dans la partie `chatbot patient`
+3. se mettre a la place du docteur pour comparer les patient `docteur`
+
 
 Cela va lancer :
 - Le service **backend** sur le port `8000`
