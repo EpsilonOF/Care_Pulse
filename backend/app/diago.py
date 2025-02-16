@@ -1,10 +1,19 @@
 from openai import OpenAI
 import json
 from io import StringIO
+from dotenv import load_dotenv
+import os
+
+# Charger les variables d'environnement à partir du fichier .env
+load_dotenv()
+
+# Récupérer les variables d'environnement
+openai_api_key = os.getenv('OPENAI_API_KEY')
+openai_base_url = os.getenv('OPENAI_BASE_URL')
 
 client = OpenAI(
-    base_url = "https://api.scaleway.ai/c98de2b2-feb7-4780-a578-4c5276194bf4/v1",
-    api_key = "a1a533f0-283e-4977-b763-2759d25e1f7f"
+    base_url = openai_base_url,
+    api_key = openai_api_key
 )
 
 def dictDataExtract(file):

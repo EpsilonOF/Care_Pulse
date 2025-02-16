@@ -1,27 +1,27 @@
 {
-    "patient_name": "ok",
-    "patient_gender": 1,
+    "patient_name": "Victoria",
+    "patient_gender": 2,
     "responses": {
         "1": [
+            "3",
+            "1",
+            "5",
+            "Moderately",
+            "\"On a scale of 0 to 10, how much does shortness of breath or fatigue limit your ability to shower or bathe?\""
+        ],
+        "2": [
+            "4",
+            "1",
+            "5",
+            "Slightly",
+            "\"On a scale of 0 to 10, how much does shortness of breath or fatigue limit your ability to walk one block on level ground?\""
+        ],
+        "3": [
             "2",
             "1",
             "5",
             "Quite a bit",
-            "How much are you limited by shortness of breath or fatigue in your ability to shower or bathe?"
-        ],
-        "2": [
-            "1",
-            "1",
-            "5",
-            "Extremely",
-            "\"On a scale of 0 to 10, how much are you limited by shortness of breath or fatigue in your ability to walk one block on level ground?\""
-        ],
-        "3": [
-            "1",
-            "1",
-            "5",
-            "Extremely",
-            "\"To what extent are you limited by shortness of breath or fatigue when hurrying or jogging?\""
+            "\"How much are you limited by shortness of breath or fatigue when hurrying or jogging?\""
         ],
         "4": [
             "1",
@@ -31,59 +31,59 @@
             "Over the past 2 weeks, how many times have you experienced swelling in your feet, ankles, or legs upon waking up in the morning?"
         ],
         "5": [
-            "1",
+            "6",
             "1",
             "7",
-            "All of the time",
-            "\"Over the past two weeks, on average, how many times has fatigue limited your ability to do what you wanted?\""
+            "Less than once week",
+            "Over the past two weeks, on average, how many times has fatigue limited your ability to do what you wanted?"
         ],
         "6": [
             "1",
             "1",
             "7",
             "All of the time",
-            "\"Over the past two weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?\""
+            "Over the past two weeks, on average, how many times has shortness of breath limited your ability to do what you wanted?"
         ],
         "7": [
-            "1",
+            "3",
             "1",
             "5",
-            "Every morning",
-            "Over the past 2 weeks, on average, how many times have you been forced to sleep sitting up in a chair or with at least 3 pillows to prop you up due to shortness of breath?"
+            "1-2 times per week",
+            "Over the past 2 weeks, on average, how many times have you been forced to sleep sitting up in a chair or with at least 3 pillows to prop you up because of shortness of breath?"
         ],
         "8": [
-            "1",
+            "4",
             "1",
             "5",
-            "Extremely",
-            "Over the past 2 weeks, how much have your symptoms limited your enjoyment of life?"
+            "Slightly",
+            "\"Over the past two weeks, to what extent have your symptoms limited your enjoyment of life?\""
         ],
         "9": [
-            "1",
+            "3",
             "1",
             "5",
-            "Not at all satisfied",
-            "How would you feel about having to live with your current symptoms for the rest of your life?"
+            "Somewhat satisfied",
+            "How would you feel about living with your current symptoms for the rest of your life?"
         ],
         "10": [
-            "1",
+            "4",
             "1",
             "5",
-            "Severely",
+            "Slightly",
             "How do your symptoms limit your hobbies and recreational activities?"
         ],
         "11": [
-            "1",
+            "3",
             "1",
             "5",
-            "Severely",
+            "Moderately",
             "How do your symptoms limit your ability to work or do household chores?"
         ],
         "12": [
-            "1",
+            "4",
             "1",
             "5",
-            "Severely",
+            "Slightly",
             "How do your symptoms limit your ability to visit your family or friends?"
         ]
     }

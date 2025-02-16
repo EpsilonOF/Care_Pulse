@@ -7,8 +7,8 @@ services:
       - ./backend/app:/app
     ports:
       - "8000:8000"
-    environment:
-      - DATABASE_URL=postgres://user:password@db:5432/mydatabase
+    env_file:
+      - .env
     depends_on:
       - db
     networks:

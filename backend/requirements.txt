@@ -4,3 +4,4 @@ tortoise-orm
 aerich
 asyncpg  # If using PostgreSQL
 openai
+python-dotenv
