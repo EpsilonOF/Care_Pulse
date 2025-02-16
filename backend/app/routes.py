@@ -37,8 +37,6 @@ async def get_diagnostic_questions():
     return question
 
 def get_score(file):
-    log.info(f"Received diagnostic data: {file}")
-    print(f"Received diagnostic data: {file}")
     return calculate_total_score(file)
 
 @router.post("/recup-diagnostic/", status_code=status.HTTP_200_OK)
@@ -62,7 +60,7 @@ async def create_diagnostic(data: DiagnosticData):
     # Création du dictionnaire file
     file = {
         "patient_name": data.patient_name,
-        "patient_gender": "male" if data.patient_gender == 1 else "female",
+        "patient_gender": "male" if data.patient_gender == 1 else "female" if data.patient_gender == 2 else "other",
         "responses": responses
     }
 
@@ -73,7 +71,8 @@ async def create_diagnostic(data: DiagnosticData):
         contenu={"responses": res},
         questions=questions,
         patient=patient,
-        genre=data.patient_gender
+        genre=data.patient_gender,
+        responses=responses
     )
 
     return {"message": "Diagnostic recorded successfully"}
@@ -95,22 +94,12 @@ async def get_diagnostics():
     response = []
     for diagnostic in diagnostics:
         responses = {}
-
-        for question in diagnostic.questions:
-
-            # Vérifiez si la clé 'range' existe et si elle contient une liste avec au moins un élément
-            range_value = question.get('range', [1, 5])
-            if not isinstance(range_value, list) or len(range_value) < 1:
-                range_value = [1, 5]  # Valeur par défaut
-
-            responses[str(question['id'])] = [
-                1 if question['response_type'] == 'boolean' else 1,  # Assuming 1 for boolean questions
-                None if question['response_type'] == 'boolean' else range_value[0],
-                None if question['response_type'] == 'boolean' else range_value[1],
-                None,  # Placeholder for the response value
-                question['text']
-            ]
-
+        for key, value in diagnostic.responses.items():
+            # Convertir la chaîne en liste
+            # Extraire le premier élément et le convertir en entier
+            first_element = int(value[0])
+            # Ajouter au dictionnaire salut
+            responses[value[4]] = [str(first_element),value[3]]
         response.append({
             "patient_name": diagnostic.patient.nom,
             "patient_gender": diagnostic.genre,

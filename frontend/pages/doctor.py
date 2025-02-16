@@ -97,17 +97,14 @@ def main():
 
                 # Affichage des réponses
                 st.write("### Réponses au questionnaire :")
-                for question_id, response_info in data["responses"].items():
+                for question, response_info in data["responses"].items():
+                    logging.error("DATA RESPONSES ITEMS : ", data["responses"].items())
                     # response_info est de la forme [?, ?, ?, ?, question_text]
-                    question_text = response_info[4]
+                    question_text = question
                     # Par hypothèse, la valeur d'intérêt (note/réponse) est dans response_info[2]
-                    note = response_info[2]
+                    note = response_info[0]
 
-                    st.write(f"- **Question {question_id}** : {question_text}")
-                    if note is not None:
-                        st.write(f"  Réponse : {note}")
-                    else:
-                        st.write("  Réponse : Non renseigné")
+                    st.write(f"- **{question}** : {response_info[1]}")
 
                 st.write(f"Compte-rendu : {data['contenu']}")
                 break  # On arrête la boucle une fois le patient trouvé

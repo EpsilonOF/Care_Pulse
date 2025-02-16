@@ -15,3 +15,4 @@ class Diagnostic(models.Model):
     questions = fields.JSONField()
     patient = fields.ForeignKeyField('models.Patient', related_name='diagnostics')
     genre = fields.CharField(max_length=100)
+    responses = fields.JSONField()

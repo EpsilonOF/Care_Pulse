@@ -5,10 +5,6 @@ import json
 import logging
 import doctor
 
-# username = st.secrets["username"]
-username = "felou"
-# password = st.secrets["password"]
-
 def home_page():
     st.title("Bienvenue sur notre plateforme médicale")
     st.header("Votre historique médical")
@@ -187,10 +183,6 @@ def main():
     elif st.session_state.page == "doctor":
         doctor.main()  # Appel de la fonction `main()` de doctor.py
 
-    # Bouton pour générer et envoyer le PDF
-    pdf_content = generate_pdf()
-    if st.button("Générer et envoyer le PDF", key="generate_pdf", help="Générer un rapport médical en PDF", use_container_width=True):
-        send_pdf(pdf_content)
-
+ 
 if __name__ == "__main__":
     main()
