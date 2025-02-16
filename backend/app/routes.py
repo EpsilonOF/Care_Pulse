@@ -35,7 +35,8 @@ async def get_diagnostic_questions():
     question = take_question(questions)
     return question
 
-
+def get_score(file):
+    return 3.4
 
 @router.post("/recup-diagnostic/", status_code=status.HTTP_200_OK)
 async def create_diagnostic(data: DiagnosticData):
@@ -63,7 +64,7 @@ async def create_diagnostic(data: DiagnosticData):
     }
 
     # Appel de la fonction interview_summup avec les bonnes entrées
-    res = interview_summup(3.24, file)
+    res = interview_summup(get_score(file), file)
 
     diagnostic = await Diagnostic.create(
         contenu={"responses": res},
