@@ -16,11 +16,12 @@ def dictDataExtract(file):
 
 def mistral_summup(score, file, language):
     prompt = dictDataExtract(file)
+    doc = "Interpreting the Kansas City Cardiomyopathy Questionnaire in Clinical Trials and Clinical Care by John A. Spertus et al."
     response = client.chat.completions.create(
         model="mistral-nemo-instruct-2407",
         messages = [
-            { "role": "system", "content": "This data is compose of " + prompt + ". Use only does data and the score given by the users, be neutral. Give exactly the answers to the question but in " + language + ". Try to structure correctly the answer."},
-            { "role": "user", "content": "Give me a sum up in " + language + "of the patient interview according to his response. His calculate emergency score is : " + str(score) + " The emergency score is on a scale to 10, tell me if the score is low medium or high."},
+            { "role": "system", "content": "This data is compose of " + prompt + ". Use only the data and the score given by the users, be neutral. Give exactly the answers to the question but in " + language + ". Try to structure correctly the answer."},
+            { "role": "user", "content": "Give me a sum up in " + language + "of the patient interview according to their response. They score on the Kansas cardiomyopathy questionnaire is: " + str(score) + f" The emergency score is on a scale of 0 to 100, tell me if the health risk is high, medium or low, knowing that a lower score is a higher health risk. Rely on the following scientific article : {doc}. Cite the article name at the end."},
         ],
         max_tokens=512,
         temperature=0.3,
