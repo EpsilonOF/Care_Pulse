@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 import json
 import logging
+import doctor
 
 # username = st.secrets["username"]
 username = "felou"
@@ -168,28 +169,26 @@ def send_pdf(pdf_content):
     st.write("PDF généré et envoyé avec succès.")
 
 def main():
-    # Sidebar pour la navigation
-    st.sidebar.title("Navigation")
-    if st.sidebar.button("Accueil"):
-        st.session_state.page = "home"
-    if st.sidebar.button("Post-consultation"):
-        st.session_state.page = "post_consultation"
-    if st.sidebar.button("Chatbot"):
+    # Initialiser la page par défaut
+    if 'page' not in st.session_state:
         st.session_state.page = "chatbot"
 
-    if 'page' not in st.session_state:
-        st.session_state.page = "home"
+    # Sidebar pour la navigation
+    st.sidebar.title("Navigation")
 
-    if st.session_state.page == "home":
-        home_page()
-    elif st.session_state.page == "post_consultation":
-        post_consultation_page()
-    elif st.session_state.page == "chatbot":
-        chatbot_page()
+    if st.sidebar.button("Chatbot patient"):
+        st.session_state.page = "chatbot"
+    if st.sidebar.button("Docteur"):
+        st.session_state.page = "doctor"
 
-    # Boutons pour générer et envoyer le PDF
+    # Afficher la page en fonction du choix
+    if st.session_state.page == "chatbot":
+        chatbot_page()  # Assurez-vous que cette fonction est définie
+    elif st.session_state.page == "doctor":
+        doctor.main()  # Appel de la fonction `main()` de doctor.py
+
+    # Bouton pour générer et envoyer le PDF
     pdf_content = generate_pdf()
-
     if st.button("Générer et envoyer le PDF", key="generate_pdf", help="Générer un rapport médical en PDF", use_container_width=True):
         send_pdf(pdf_content)
 

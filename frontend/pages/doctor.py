@@ -87,7 +87,7 @@ def get_formatted_diagnostic(data):
 def main():
     st.title("👨‍⚕️ Doctor Interface")
 
-    tabs = st.tabs(["📋 Priorité des Patients", "📝 Diagnostic & PDF", "📄 Diagnostics du Modèle"])
+    tabs = st.tabs(["📋 Diagnostics du Modèle"])
 
 
     # Onglet 3 : Diagnostics du Modèle
