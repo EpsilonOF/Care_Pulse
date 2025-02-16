@@ -70,7 +70,9 @@ decapix-doctogreed-hackathon/
    ```bash git clone https://github.com/votre-compte/doctogreed-hackathon.git cd doctogreed-hackathon ```
 2. **(Facultatif) Mettre à jour les variables d’environnement** dans `docker-compose.yaml` si nécessaire (ex. `DATABASE_URL`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, etc.).
 
-3. **Lancer Docker Compose** :  
+3. Créer un fichier .env et mettre la bonne clé API ainsi que la bonne URL. Exemple : `https://api.scaleway.ai/c98de2b2-feb7-4780-a578-4c5276194bf4/v1` .
+4. 
+5. **Lancer Docker Compose** :  
    ``docker-compose up --build``
 
 Cela va lancer :
