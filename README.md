@@ -1,9 +1,13 @@
 # DoctoGreed Hackathon – Infrastructure IA pour la cardiologie
-Bienvenue dans ce projet de chatbot IA dédié à la cardiologie, conçu pour aider à la **pré-évaluation** des patients, la **génération de rapports médicaux structurés** et le **suivi post-consultation**. L’architecture globale est orchestrée via **Docker Compose**, et comprend :
+Bienvenue dans ce projet de chatbot IA dédié à la cardiologie, conçu pour aider à la **pré-évaluation** des patients, la **génération de rapports médicaux structurés** et le **suivi post-consultation**. 
 
-- Un **backend** en [FastAPI](https://fastapi.tiangolo.com/) (Python) utilisant [Tortoise ORM](https://tortoise-orm.readthedocs.io/) pour la base de données **PostgreSQL**.
-- Un **frontend** en [Streamlit](https://streamlit.io/) permettant l’interaction avec le patient (questionnaire, post-consultation) et avec le médecin (interface de suivi, génération de PDF, etc.).
-- Une base de données **PostgreSQL** pour stocker les informations relatives aux patients, diagnostics et médecins.
+The overall architecture is orchestrated via **Docker Compose**, and includes:
+
+- A **backend** in [FastAPI](https://fastapi.tiangolo.com/) (Python) using [Tortoise ORM](https://tortoise-orm.readthedocs.io/) for the **PostgreSQL** database.
+- A **frontend** in [Streamlit](https://streamlit.io/) enabling interaction with the patient (questionnaire, post-consultation) and with the doctor (follow-up interface, PDF generation, etc.).
+- A **PostgreSQL** database to store patient, diagnosis and physician information.
+
+- 
 ## Table des matières
 1. [Contexte : use case IA en cardiologie](#contexte--use-case-ia-en-cardiologie)
 2. [Fonctionnalités principales](#fonctionnalités-principales)
