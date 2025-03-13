@@ -1,123 +1,129 @@
-# DoctoGreed Hackathon – Infrastructure IA pour la cardiologie
-Bienvenue dans ce projet de chatbot IA dédié à la cardiologie, conçu pour aider à la **pré-évaluation** des patients, la **génération de rapports médicaux structurés** et le **suivi post-consultation**. 
+# DoctoGreed Hackathon – AI Infrastructure for Cardiology
 
-The overall architecture is orchestrated via **Docker Compose**, and includes:
+Welcome to this AI chatbot project dedicated to cardiology, designed to assist with patient pre-evaluation, the generation of structured medical reports, and post-consultation follow-up.
 
-- A **backend** in [FastAPI](https://fastapi.tiangolo.com/) (Python) using [Tortoise ORM](https://tortoise-orm.readthedocs.io/) for the **PostgreSQL** database.
-- A **frontend** in [Streamlit](https://streamlit.io/) enabling interaction with the patient (questionnaire, post-consultation) and with the doctor (follow-up interface, PDF generation, etc.).
-- A **PostgreSQL** database to store patient, diagnosis and physician information.
+The overall architecture is orchestrated via Docker Compose, and includes:
 
-- 
-## Table des matières
-1. [Contexte : use case IA en cardiologie](#contexte--use-case-ia-en-cardiologie)
-2. [Fonctionnalités principales](#fonctionnalités-principales)
-3. [Structure du projet](#structure-du-projet)
-4. [Prérequis](#prérequis)
-5. [Comment lancer le projet ?](#comment-lancer-le-projet-)
-6. [Contribution & Licence](#contribution--licence)
+- A backend in FastAPI (Python) using Tortoise ORM for the PostgreSQL database.
+- A frontend in Streamlit enabling interaction with the patient (questionnaire, post-consultation) and with the doctor (follow-up interface, PDF generation, etc.).
+- A PostgreSQL database to store patient, diagnosis, and physician information.
 
----  
+## Table of Contents
 
-## Contexte : use case IA en cardiologie
-Ce projet répond à un besoin concret dans le domaine médical :
-- **Pénurie de cardiologues** et répartition inégale de l’expertise.
-- **Triage non optimisé** des patients, sans évaluation médicale préalable.
-- **Perte de temps** en consultation (questions de base).
-- **Manque de suivi structuré** post-consultation.
+1. Context: AI use case in cardiology
+2. Main features
+3. Project structure
+4. Prerequisites
+5. How to launch the project?
+6. Contribution & License
 
-  **Objectif** : Un assistant IA qui prépare et optimise les consultations :
-  - Pré-évalue le patient avant la prise de rendez-vous.
-  - Génère un rapport structuré des symptômes / historique médical.
-  - Aide le cardiologue à prioriser les cas les plus urgents.
-  - Assure un suivi post-consultation intelligent (rappels, alertes, etc.).
+## Context: AI use case in cardiology
 
----  
+This project addresses a concrete need in the medical field:
 
-## Fonctionnalités principales
-1. **Triage des patients** : Analyse des réponses et priorisation des cas urgents.
-2. **Consultation préliminaire** : Rassemble les informations importantes (symptômes, historique, traitements en cours).
-3. **Suivi post-consultation** : Rappels de prise de médicament, vérification de l’évolution, alertes si aggravation.
-4. **Génération de rapports** : Export PDF, affichage côté médecin, éventuellement notifications pour le patient.
----  
+- Shortage of cardiologists and uneven distribution of expertise.
+- Non-optimized patient triage, without prior medical evaluation.
+- Time wasted in consultation (basic questions).
+- Lack of structured post-consultation follow-up.
 
-## Structure du projet
-```  
-decapix-doctogreed-hackathon/  
-├── README.md                <-- Vous êtes ici (présentation globale)  
-├── docker-compose.yaml      <-- Configuration Docker Compose  
-├── .dockerignore            <-- Fichiers ignorés par Docker  
-├── backend/  
-│   ├── backend.md           <-- Documentation spécifique au backend  
-│   ├── Dockerfile           <-- Dockerfile du backend  
-│   ├── requirements.txt     <-- Dépendances Python du backend  
-│   └── app/  
-│       ├── __init__.py  
-│       ├── db_models.py  
-│       ├── ds.py  
-│       ├── enter_model.py  
-│       ├── main.py  
-│       └── routes.py  
-└── frontend/  
-    ├── frontend.md          <-- Documentation spécifique au frontend  
-    ├── Dockerfile           <-- Dockerfile du frontend  
-    ├── requirements.txt     <-- Dépendances Python du frontend  
-    └── pages/  
-    ├── doctor.py  
-    └── patient.py  
-```  
-  
----  
+Objective: An AI assistant that prepares and optimizes consultations:
 
-## Prérequis
+   - Pre-evaluates the patient before the appointment.
+   - Generates a structured report of symptoms/medical history.
+   - Helps the cardiologist prioritize the most urgent cases.
+   - Ensures intelligent post-consultation follow-up (reminders, alerts, etc.).
 
-- [Docker](https://www.docker.com/) (version 20+ recommandée)
-- [Docker Compose](https://docs.docker.com/compose/) (version 3.8+)
-- (Optionnel) Connaissances basiques de **FastAPI**, **Streamlit** et **PostgreSQL** pour personnaliser l’application.
+## Main features
 
----  
+1. Patient triage: Analysis of responses and prioritization of urgent cases.
+2. Preliminary consultation: Gathering important information (symptoms, history, current treatments).
+3. Post-consultation follow-up: Reminders to take medication, check progress, alerts if worsening.
+4. Report generation: PDF export, display on the doctor's side, possibly notifications for the patient.
 
-## Comment lancer le projet ?
+## Project structure
 
-1. **Cloner le dépôt** :  
-   ```bash git clone https://github.com/votre-compte/doctogreed-hackathon.git cd doctogreed-hackathon ```
-2. **(Facultatif) Mettre à jour les variables d’environnement** dans `docker-compose.yaml` si nécessaire (ex. `DATABASE_URL`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, etc.).
+```
+decapix-doctogreed-hackathon/
+├── README.md                <-- You are here (overall presentation)
+├── docker-compose.yaml      <-- Docker Compose configuration
+├── .dockerignore            <-- Files ignored by Docker
+├── backend/
+│   ├── backend.md           <-- Backend-specific documentation
+│   ├── Dockerfile           <-- Backend Dockerfile
+│   ├── requirements.txt     <-- Backend Python dependencies
+│   └── app/
+│       ├── __init__.py
+│       ├── db_models.py
+│       ├── ds.py
+│       ├── enter_model.py
+│       ├── main.py
+│       └── routes.py
+└── frontend/
+    ├── frontend.md          <-- Frontend-specific documentation
+    ├── Dockerfile           <-- Frontend Dockerfile
+    ├── requirements.txt     <-- Frontend Python dependencies
+    └── pages/
+    ├── doctor.py
+    └── patient.py
+```
 
-3. **Créer un fichier .env** et mettre la bonne clé API ainsi que la bonne URL. Exemple : `https://api.scaleway.ai/c98de2b2-feb7-4780-a578-4c5276194bf4/v1` .
- 
-4. **Lancer Docker Compose** :  
-   ``docker-compose up --build``
-## Pour utiliser notre logique :
+## Prerequisites
 
-1. Créer un utilisateur :
+- Docker (version 20+ recommended)
+- Docker Compose (version 3.8+)
+- (Optional) Basic knowledge of FastAPI, Streamlit, and PostgreSQL to customize the application.
 
-``curl -X POST http://127.0.0.1:8000/create/patient/ -H "Content-Type:application/json" -d '{"nom":"votre_nom"}'``
+## How to launch the project?
 
-2. Simuler sa prise de rendez vous dans la partie `chatbot patient`
-3. Se mettre à la place du docteur pour comparer les patients `docteur`
+1. Clone the repository:
+```bash
+git clone https://github.com/votre-compte/doctogreed-hackathon.git
+cd doctogreed-hackathon
+```
+2. (Optional) Update the environment variables in `docker-compose.yaml` if necessary (e.g., `DATABASE_URL`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, etc.).
+3. Create a .env file and set the correct API key and URL. Example: `https://api.scaleway.ai/c98de2b2-feb7-4780-a578-4c5276194bf4/v1`.
+4. Launch Docker Compose:
+```bash
+docker-compose up --build
+```
 
+## To use our logic:
 
-Cela va lancer :
-- Le service **backend** sur le port `8000`
-- Le service **frontend** sur le port `8501`
-- Le service **db** (PostgreSQL) sur le port `5432`
+1. Create a user:
 
-4. **Accéder aux applications** :
-    - **Backend** (FastAPI) : [http://localhost:8000/docs](http://localhost:8000/docs) pour la doc auto (Swagger).
-    - **Frontend** (Streamlit) : [http://localhost:8501](http://localhost:8501) pour l’interface utilisateur.
+```bash
+curl -X POST http://127.0.0.1:8000/create/patient/ -H "Content-Type:application/json" -d '{"nom":"votre_nom"}'
+```
 
-5. **Vérifier la base de données** :
-    - Par défaut, le container PostgreSQL est accessible sur le port `5432`.
-    - Les identifiants (ex: `user / password`) sont définis dans `docker-compose.yaml`.
+2. Simulate their appointment in the `patient chatbot` section.
+3. Take the doctor's place to compare patients `docteur`.
 
-6. **Arrêter l’environnement** :  
-   ``docker-compose down``
----  
+This will launch:
 
-## Contribution & Licence
+- The backend service on port `8000`
+- The frontend service on port `8501`
+- The db service (PostgreSQL) on port `5432`
+4. Access the applications:
 
-- **Contributions** : Les PR, issues et suggestions sont les bienvenues.
-- **Licence** : Ce projet est sous licence libre (à spécifier selon votre besoin : MIT, Apache 2.0, etc.).
+    - Backend (FastAPI): http://localhost:8000/docs for auto-doc (Swagger).
+    - Frontend (Streamlit): http://localhost:8501 for the user interface.
+5. Check the database:
 
-Pour plus de détails, référez-vous aux README spécifiques :
-- [backend.md](./backend/backend.md) dans le dossier `backend`.
-- [frontend.md](./frontend/frontend.md) dans le dossier `frontend`.  
+    - By default, the PostgreSQL container is accessible on port `5432`.
+    - The credentials (e.g., `user / password`) are defined in `docker-compose.yaml`.
+6. Stop the environment:
+```bash
+docker-compose down
+```
+
+## Contribution & License
+
+- Contributions: PRs, issues, and suggestions are welcome.
+- License: This project is under a free license (to be specified according to your needs: MIT, Apache 2.0, etc.).
+
+For more details, refer to the specific READMEs:
+
+- `backend.md` in the `backend` folder.
+- `frontend.md` in the `frontend` folder.
+
+---
